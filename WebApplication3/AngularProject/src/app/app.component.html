@@ -1,0 +1,31 @@
+<!--The whole content below can be removed with the new code.-->
+<div style="text-align:center">
+  <h1>
+    {{connectionStatus}}
+  </h1>
+
+
+  <button (click)="connect();">Connect </button>
+  <button (click)="connect2();">Connect 2</button>
+
+  <div class="container">
+    <form onsubmit="return false">
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" #dataName>
+      </div>
+
+      <div class="form-group">
+        <input type="text" class="form-control" #dataText/>
+      </div>
+      <button type="submit" class="btn btn-success" (click)="onSubmit(dataName.value,dataText.value)">Submit</button>
+    </form>
+    <div>
+      <div *ngFor="let item of messages">
+        {{item.Name}}:{{item.Message}}
+      </div>
+    </div>
+
+
+  </div>
