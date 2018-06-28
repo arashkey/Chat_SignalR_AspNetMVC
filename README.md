@@ -1,4 +1,6 @@
+
 # Chat Sample with SignalR and Asp.Net MVC and angular 6
+for init of project run `init.bat` in command promt
 for run this project run this command 
 in nuget command promt run 
 ` Update-Package -Reinstall `
