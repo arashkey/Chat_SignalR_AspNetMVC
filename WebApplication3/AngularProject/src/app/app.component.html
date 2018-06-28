@@ -6,22 +6,28 @@
 
 </div>
 
-<div class="container">
-
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input type="text" id="name" name="name" class="form-control" #dataName placeholder="your name" />
-  </div>
-  <div class="form-group">
-    <label for="text">Message</label>
-    <textarea type="text" id="text" class="form-control" name="text" #dataText placeholder="text ..."></textarea>
-  </div>
-  <button type="submit" class="btn btn-success" (click)="onSubmit(dataName.value,dataText.value)">Submit</button>
-
-  <div>
-    <div *ngFor="let item of messages">
-     &bull; {{item.Name}}: {{item.Message}}
+ 
+  <div class="container">
+    <div class="form-group">
+      <a class="btn btn-info" target="_blank" href="/">Open Another Chat</a>
     </div>
+
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" class="form-control" #dataName placeholder="your name" value="user 1" required/>
+    </div>
+    <div class="form-group">
+      <label for="text">Message</label>
+      <textarea type="text" id="text" class="form-control" name="text" #dataText placeholder="text ..." required></textarea>
+    </div>
+    <button type="submit" class="btn btn-success" (click)="onSubmit(dataName.value,dataText.value); ">Submit</button>
+
+    <div>
+      <div *ngFor="let item of messages">
+        &bull; {{item.Name}}: {{item.Message}}
+      </div>
+    </div>
+
   </div>
 
-</div>
+ 
