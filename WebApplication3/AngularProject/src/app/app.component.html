@@ -6,28 +6,55 @@
 
 </div>
 
- 
-  <div class="container">
-    <div class="form-group">
-      <a class="btn btn-info" target="_blank" href="/">Open Another Chat</a>
-    </div>
+<h1>Direct chat</h1>
+<div class="container">
+  <div class="form-group">
+    <a class="btn btn-info" target="_blank" href="/">Open Another Chat</a>
+  </div>
+
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" class="form-control" #dataName placeholder="your name" value="user 1" required/>
+  </div>
+  <div class="form-group">
+    <label for="text">Message</label>
+    <textarea type="text" id="text" class="form-control" name="text" #dataText placeholder="text ..." required></textarea>
+  </div>
+  <button type="submit" class="btn btn-success" (click)="onSubmit(dataName.value,dataText.value); ">Submit</button>
+
+
+
+</div>
+
+
+<h2>Join to the group</h2>
+<div class="container">
+
+  <div *ngIf="!groupName">
 
     <div class="form-group">
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" class="form-control" #dataName placeholder="your name" value="user 1" required/>
+      <label for="groupName">Group Name</label>
+      <input type="text" id="groupName" name="groupName" class="form-control" #dataGroupName placeholder="your group name" value="group 1"
+        required/>
     </div>
-    <div class="form-group">
-      <label for="text">Message</label>
-      <textarea type="text" id="text" class="form-control" name="text" #dataText placeholder="text ..." required></textarea>
-    </div>
-    <button type="submit" class="btn btn-success" (click)="onSubmit(dataName.value,dataText.value); ">Submit</button>
+    <button type="submit" class="btn btn-success" (click)="joniGroup(dataGroupName.value); ">Join</button>
+  </div>
+  <div *ngIf="groupName">
 
-    <div>
-      <div *ngFor="let item of messages">
-        &bull; {{item.Name}}: {{item.Message}}
-      </div>
+    <div class="form-group">
+      <label for="groupText">Message</label>
+      <textarea type="text" id="groupText" class="form-control" name="groupText" #dataGroupText placeholder="text ..." required></textarea>
     </div>
+    <button type="submit" class="btn btn-success" (click)="sendToGroup(dataGroupText.value); ">Send To Group</button>
+    <button type="submit" class="btn btn-danger" (click)="leaveRoom(); ">Leave Room</button>
 
   </div>
 
- 
+
+
+</div>
+<div>
+  <div *ngFor="let item of messages">
+    &bull; {{item.Name}}: {{item.Message}}
+  </div>
+</div>

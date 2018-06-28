@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--The whole content below can be removed with the new code.-->\r\n<div style=\"text-align:center\">\r\n  <h1>\r\n    {{connectionStatus}}\r\n  </h1>\r\n\r\n</div>\r\n\r\n \r\n  <div class=\"container\">\r\n    <div class=\"form-group\">\r\n      <a class=\"btn btn-info\" target=\"_blank\" href=\"/\">Open Another Chat</a>\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"name\">Name</label>\r\n      <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" #dataName placeholder=\"your name\" value=\"user 1\" required/>\r\n    </div>\r\n    <div class=\"form-group\">\r\n      <label for=\"text\">Message</label>\r\n      <textarea type=\"text\" id=\"text\" class=\"form-control\" name=\"text\" #dataText placeholder=\"text ...\" required></textarea>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-success\" (click)=\"onSubmit(dataName.value,dataText.value); \">Submit</button>\r\n\r\n    <div>\r\n      <div *ngFor=\"let item of messages\">\r\n        &bull; {{item.Name}}: {{item.Message}}\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n\r\n \r\n"
+module.exports = "<!--The whole content below can be removed with the new code.-->\r\n<div style=\"text-align:center\">\r\n  <h1>\r\n    {{connectionStatus}}\r\n  </h1>\r\n\r\n</div>\r\n\r\n<h1>Direct chat</h1>\r\n<div class=\"container\">\r\n  <div class=\"form-group\">\r\n    <a class=\"btn btn-info\" target=\"_blank\" href=\"/\">Open Another Chat</a>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"name\">Name</label>\r\n    <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" #dataName placeholder=\"your name\" value=\"user 1\" required/>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <label for=\"text\">Message</label>\r\n    <textarea type=\"text\" id=\"text\" class=\"form-control\" name=\"text\" #dataText placeholder=\"text ...\" required></textarea>\r\n  </div>\r\n  <button type=\"submit\" class=\"btn btn-success\" (click)=\"onSubmit(dataName.value,dataText.value); \">Submit</button>\r\n\r\n\r\n\r\n</div>\r\n\r\n\r\n<h2>Join to the group</h2>\r\n<div class=\"container\">\r\n\r\n  <div *ngIf=\"!groupName\">\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"groupName\">Group Name</label>\r\n      <input type=\"text\" id=\"groupName\" name=\"groupName\" class=\"form-control\" #dataGroupName placeholder=\"your group name\" value=\"group 1\"\r\n        required/>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-success\" (click)=\"joniGroup(dataGroupName.value); \">Join</button>\r\n  </div>\r\n  <div *ngIf=\"groupName\">\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"groupText\">Message</label>\r\n      <textarea type=\"text\" id=\"groupText\" class=\"form-control\" name=\"groupText\" #dataGroupText placeholder=\"text ...\" required></textarea>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-success\" (click)=\"sendToGroup(dataGroupText.value); \">Send To Group</button>\r\n    <button type=\"submit\" class=\"btn btn-danger\" (click)=\"leaveRoom(); \">Leave Room</button>\r\n\r\n  </div>\r\n\r\n\r\n\r\n</div>\r\n<div>\r\n  <div *ngFor=\"let item of messages\">\r\n    &bull; {{item.Name}}: {{item.Message}}\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -71,7 +71,7 @@ var AppComponent = (function () {
         conx.start().then(function (c) {
             _this.connectionSignalR = c;
             // 1.create a listener object
-            // const onMessageSent$ = new BroadcastEventListener<ChatMessage>('broadcastMessage');
+            // const onMessageSent$ = new BroadcastEventListener<ChatMessage>('addChatMessage');
             // // 2.register the listener
             // c.listen(onMessageSent$);
             // // 3.subscribe for incoming messages
@@ -79,7 +79,7 @@ var AppComponent = (function () {
             //   console.log('listener  ', chatMessage);
             //   this.title += '  ' + chatMessage.name + '  ' + chatMessage.text;
             // });
-            var listener = c.listenFor('broadcastMessage');
+            var listener = c.listenFor('addChatMessage');
             listener.subscribe(function (a) {
                 _this.messages.push(a);
             });
@@ -87,6 +87,27 @@ var AppComponent = (function () {
     }
     AppComponent.prototype.onSubmit = function (name, text) {
         this.connectionSignalR.invoke('Send', name, text).then(function () {
+            console.log('message submit');
+        });
+    };
+    AppComponent.prototype.joniGroup = function (groupName) {
+        var _this = this;
+        this.connectionSignalR.invoke('JoinRoom', groupName).then(function () {
+            _this.groupName = groupName;
+            console.log('Join Room');
+        });
+    };
+    AppComponent.prototype.sendToGroup = function (text) {
+        var _this = this;
+        this.connectionSignalR.invoke('SendToGroup', this.groupName, text).then(function () {
+            console.log(text + " sent to " + _this.groupName);
+        });
+    };
+    AppComponent.prototype.leaveRoom = function () {
+        var _this = this;
+        this.connectionSignalR.invoke('LeaveRoom', this.groupName).then(function () {
+            console.log("Leave Room " + _this.groupName);
+            _this.groupName = null;
         });
     };
     return AppComponent;

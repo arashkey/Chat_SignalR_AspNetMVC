@@ -10,6 +10,7 @@ import { SignalR, IConnectionOptions, BroadcastEventListener, ISignalRConnection
 export class AppComponent {
   title = 'app';
   connectionStatus = 'none';
+  groupName: string;
 
   connectionSignalR: ISignalRConnection;
   messages: ChatMessage[] = [];
@@ -25,7 +26,7 @@ export class AppComponent {
       this.connectionSignalR = c;
 
       // 1.create a listener object
-      // const onMessageSent$ = new BroadcastEventListener<ChatMessage>('broadcastMessage');
+      // const onMessageSent$ = new BroadcastEventListener<ChatMessage>('addChatMessage');
 
       // // 2.register the listener
       // c.listen(onMessageSent$);
@@ -36,7 +37,7 @@ export class AppComponent {
       //   this.title += '  ' + chatMessage.name + '  ' + chatMessage.text;
       // });
 
-      const listener = c.listenFor('broadcastMessage');
+      const listener = c.listenFor('addChatMessage');
       listener.subscribe((a: ChatMessage) => {
         this.messages.push(a);
       });
@@ -47,6 +48,25 @@ export class AppComponent {
 
   onSubmit(name: string, text: string) {
     this.connectionSignalR.invoke('Send', name, text).then(() => {
+      console.log('message submit');
+    });
+  }
+  joniGroup(groupName: string) {
+
+    this.connectionSignalR.invoke('JoinRoom', groupName).then(() => {
+      this.groupName = groupName;
+      console.log('Join Room');
+    });
+  }
+  sendToGroup(text: string) {
+    this.connectionSignalR.invoke('SendToGroup', this.groupName, text).then(() => {
+      console.log(`${text} sent to ${this.groupName}`);
+    });
+  }
+  leaveRoom() {
+    this.connectionSignalR.invoke('LeaveRoom', this.groupName).then(() => {
+      console.log(`Leave Room ${this.groupName}`);
+      this.groupName = null;
     });
   }
 }
