@@ -164,6 +164,14 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AngularBuild\favicon.ico" />
+    <Content Include="AngularBuild\index.html" />
+    <Content Include="AngularBuild\inline.bundle.js" />
+    <Content Include="AngularBuild\main.bundle.js" />
+    <Content Include="AngularBuild\polyfills.bundle.js" />
+    <Content Include="AngularBuild\scripts.bundle.js" />
+    <Content Include="AngularBuild\styles.bundle.js" />
+    <Content Include="AngularBuild\vendor.bundle.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -183,6 +191,12 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="AngularBuild\inline.bundle.js.map" />
+    <Content Include="AngularBuild\main.bundle.js.map" />
+    <Content Include="AngularBuild\polyfills.bundle.js.map" />
+    <Content Include="AngularBuild\scripts.bundle.js.map" />
+    <Content Include="AngularBuild\styles.bundle.js.map" />
+    <Content Include="AngularBuild\vendor.bundle.js.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
